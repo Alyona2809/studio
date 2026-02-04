@@ -1,7 +1,7 @@
 const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
-const removeHeader = require("../middleware/removeHeader");
+const removeHeader = require("../middlewares/removeHeader");
 const corsConfig = require("./corsConfig");
 require("dotenv").config();
 const path = require("path");

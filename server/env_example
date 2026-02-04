@@ -5,3 +5,23 @@ DB_HOST=127.0.0.1
 PORT=3000
 ACCESS_TOKEN_SECRET=421sdafg34trf3423rsda424fq
 REFRESH_TOKEN_SECRET=sfasfasf32r2qedasdt4326t23
+
+# SMTP — выберите один вариант (Gmail или Yandex) и заполните свои данные
+
+# --- Вариант 1: Gmail ---
+# Пароль: пароль приложения (Google → Безопасность → Пароли приложений)
+#SMTP_HOST=smtp.gmail.com
+#SMTP_PORT=587
+#SMTP_SECURE=false
+#SMTP_USER=your-email@gmail.com
+#SMTP_PASS=your-app-password
+#SMTP_FROM=your-email@gmail.com
+
+# --- Вариант 2: Yandex ---
+# Раскомментируйте блок ниже и закомментируйте блок Gmail выше
+ SMTP_HOST=smtp.yandex.ru
+ SMTP_PORT=465
+ SMTP_SECURE=true
+ SMTP_USER=your-login@yandex.ru
+ SMTP_PASS=your-app-password
+ SMTP_FROM=your-login@yandex.ru

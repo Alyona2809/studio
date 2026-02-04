@@ -5,9 +5,7 @@ module.exports = {
   async up(queryInterface) {
     await queryInterface.bulkInsert("Users", [
       {
-        firstName: "Иван",
-        lastName: "Петров",
-        userName: "ivan_petrov",
+        name: "Иван",
         email: "ivan@example.com",
         password: await bcrypt.hash("qwertQWERT123!!!", 10),
         isAdmin: true,
@@ -15,9 +13,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        firstName: "Мария",
-        lastName: "Сидорова",
-        userName: "maria_sid",
+        name: "Мария",
         email: "maria@example.com",
         password: await bcrypt.hash("qwertQWERT123!!!", 10),
         isAdmin: false,
@@ -25,9 +21,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        firstName: "Алексей",
-        lastName: "Иванов",
-        userName: "alex_ivanov",
+        name: "Алексей",
         email: "alex@example.com",
         password: await bcrypt.hash("qwertQWERT123!!!", 10),
         isAdmin: false,

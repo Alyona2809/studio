@@ -24,15 +24,17 @@ class UserValidator {
     }
   }
 
-  static validate({ email, password }) {
-    if (
-      !email ||
-      !password ||
-      typeof email !== "string" ||
-      typeof password !== "string" ||
-      email.trim().length === 0 ||
-      password.trim().length === 0
-    ) {
+  static validate({ email, password, name }) {
+    const fieldsToCheck =
+      name !== undefined ? { email, password, name } : { email, password };
+    const allPresent = Object.entries(fieldsToCheck).every(
+      ([k, v]) =>
+        v !== undefined &&
+        v !== null &&
+        typeof v === "string" &&
+        String(v).trim().length > 0
+    );
+    if (!allPresent) {
       return {
         isValid: false,
         error: "Создание пользователя с такими полями не доступно",
@@ -50,6 +52,51 @@ class UserValidator {
       };
     }
 
+    return { isValid: true, error: null };
+  }
+
+  static validateEmailOnly({ email }) {
+    if (!email || typeof email !== "string" || email.trim().length === 0) {
+      return { isValid: false, error: "Email обязателен" };
+    }
+    if (!this.validateMail(email)) {
+      return { isValid: false, error: "Неподдерживаемый формат почты" };
+    }
+    return { isValid: true, error: null };
+  }
+
+  static validateVerifyCode({ email, code }) {
+    if (
+      !email ||
+      !code ||
+      typeof email !== "string" ||
+      typeof code !== "string"
+    ) {
+      return { isValid: false, error: "Email и код обязательны" };
+    }
+    if (email.trim().length === 0 || code.trim().length === 0) {
+      return { isValid: false, error: "Email и код не должны быть пустыми" };
+    }
+    if (!this.validateMail(email)) {
+      return { isValid: false, error: "Неподдерживаемый формат почты" };
+    }
+    if (code.length !== 4 || !/^\d{4}$/.test(code)) {
+      return { isValid: false, error: "Код должен состоять из 4 цифр" };
+    }
+    return { isValid: true, error: null };
+  }
+
+  static validateResetPassword({ email, code, newPassword }) {
+    const codeValid = this.validateVerifyCode({ email, code });
+    if (!codeValid.isValid) return codeValid;
+    const passValid = this.validatePassword(newPassword);
+    if (!passValid) {
+      return {
+        isValid: false,
+        error:
+          "Неподдерживаемый формат пароля. Должен быть символ, большая буква, маленькая, цифра и не менее 8 символов.",
+      };
+    }
     return { isValid: true, error: null };
   }
 
