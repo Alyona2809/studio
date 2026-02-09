@@ -16,13 +16,14 @@ module.exports = (sequelize, DataTypes) => {
   Program.init(
     {
       programName: DataTypes.STRING,
+      age: DataTypes.STRING,
       description: DataTypes.STRING,
       photo: DataTypes.STRING,
     },
     {
       sequelize,
       modelName: "Program",
-    }
+    },
   );
 
   return Program;

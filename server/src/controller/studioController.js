@@ -1,15 +1,15 @@
-const TeacherService = require("../services/teacherService");
+const StudioService = require("../services/studioService");
 const formatResponse = require("../utils/formatResponse");
 const { buildPhotoArray, photoToString } = require("../utils/photoHelper");
 
-class TeacherController {
+class StudioController {
   static async getAll(req, res) {
     try {
-      const result = await TeacherService.getAllTeachers();
+      const result = await StudioService.getAllStudios();
       res.status(200).json(
         formatResponse({
           statusCode: 200,
-          message: "Все преподаватели",
+          message: "Все студии",
           data: result,
         }),
       );
@@ -18,7 +18,7 @@ class TeacherController {
       res.status(401).json(
         formatResponse({
           statusCode: 401,
-          message: "Не удалось получить все преподаватели",
+          message: "Не удалось получить все студии",
           error: error.message,
         }),
       );
@@ -28,12 +28,12 @@ class TeacherController {
   static async getOne(req, res) {
     try {
       const { id } = req.params;
-      const teacher = await TeacherService.getOneTeacher(id);
+      const studio = await StudioService.getOneStudio(id);
       res.status(200).json(
         formatResponse({
           statusCode: 200,
-          message: "Получен один преподаватель",
-          data: teacher,
+          message: "Получена одна студия",
+          data: studio,
         }),
       );
     } catch (error) {
@@ -41,7 +41,7 @@ class TeacherController {
       res.status(500).json(
         formatResponse({
           statusCode: 500,
-          message: "Не удалось получить один преподаватель",
+          message: "Не удалось получить одну студию",
           error: error.message,
         }),
       );
@@ -51,11 +51,11 @@ class TeacherController {
   static async delete(req, res) {
     try {
       const { id } = req.params;
-      const result = await TeacherService.deleteTeacher(id);
+      const result = await StudioService.deleteStudio(id);
       res.status(200).json(
         formatResponse({
           statusCode: 200,
-          message: "Преподаватель успешно удалён",
+          message: "Студия успешно удалёна",
           data: result,
         }),
       );
@@ -64,7 +64,7 @@ class TeacherController {
       res.status(500).json(
         formatResponse({
           statusCode: 500,
-          message: "Не удалось удалить преподаватель",
+          message: "Не удалось удалить студию",
           error: error.message,
         }),
       );
@@ -74,26 +74,25 @@ class TeacherController {
   static async update(req, res) {
     try {
       const { id } = req.params;
-      const { description, experience, programId, name } = req.body;
+      const { address, x, y } = req.body;
       const photoArray = buildPhotoArray(req);
       const photo = photoToString(photoArray);
 
-      await TeacherService.updateTeacher(id, {
-        name,
-        description,
-        experience,
-        programId: programId != null ? Number(programId) : undefined,
+      await StudioService.updateStudio(id, {
+        address,
         photo,
+        x: x != null ? Number(x) : undefined,
+        y: y != null ? Number(y) : undefined,
       });
 
-      const updated = await TeacherService.getOneTeacher(id);
+      const updated = await StudioService.getOneStudio(id);
       if (updated && photoArray.length) {
         updated.photo = photoArray;
       }
       res.status(200).json(
         formatResponse({
           statusCode: 200,
-          message: "Преподаватель успешно обновлён",
+          message: "Студия успешно обновлена",
           data: updated,
         }),
       );
@@ -101,7 +100,7 @@ class TeacherController {
       res.status(500).json(
         formatResponse({
           statusCode: 500,
-          message: "Не удалось обновить преподаватель",
+          message: "Не удалось обновить студию",
           error: error.message,
         }),
       );
@@ -110,16 +109,15 @@ class TeacherController {
 
   static async create(req, res) {
     try {
-      const { description, experience, programId, name } = req.body;
+      const { address, x, y } = req.body;
       const photoArray = buildPhotoArray(req);
       const photo = photoToString(photoArray);
 
-      const result = await TeacherService.createTeacher({
-        name,
-        description,
-        experience,
-        programId: programId != null ? Number(programId) : undefined,
+      const result = await StudioService.createStudio({
+        address,
         photo,
+        x: x != null ? Number(x) : undefined,
+        y: y != null ? Number(y) : undefined,
       });
 
       if (result && photoArray.length) {
@@ -128,7 +126,7 @@ class TeacherController {
       res.status(201).json(
         formatResponse({
           statusCode: 201,
-          message: "Преподаватель успешно создан",
+          message: "Студия успешно создана",
           data: result,
         }),
       );
@@ -137,30 +135,7 @@ class TeacherController {
       res.status(500).json(
         formatResponse({
           statusCode: 500,
-          message: "Ошибка при создании преподавателя",
-          error: error.message,
-        }),
-      );
-    }
-  }
-
-  static async getAllTeacherByProgram(req, res) {
-    try {
-      const { programId } = req.params;
-      const result = await TeacherService.getAllTeacherByProgram(programId);
-      res.status(200).json(
-        formatResponse({
-          statusCode: 200,
-          message: "Все преподаватели к одной программе",
-          data: result,
-        }),
-      );
-    } catch (error) {
-      console.log(error);
-      res.status(500).json(
-        formatResponse({
-          statusCode: 500,
-          message: "Не удалось получить все преподаватели к одной программе",
+          message: "Ошибка при создании студии",
           error: error.message,
         }),
       );
@@ -168,4 +143,4 @@ class TeacherController {
   }
 }
 
-module.exports = TeacherController;
+module.exports = StudioController;
