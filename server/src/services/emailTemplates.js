@@ -38,7 +38,25 @@ function getPasswordResetContent(code) {
   return { subject, text, html };
 }
 
+function getBookingNotificationContent({ name, phone, email }) {
+  const subject = "Новая запись на занятие";
+  const text = `Потенциальный клиент оставил заявку.\n\nИмя: ${name}\nТелефон: ${phone}\nEmail: ${email}`;
+  const html = `
+    <div style="font-family: Arial, sans-serif; max-width: 400px; margin: 0 auto;">
+      <h2 style="color: #333;">Новая запись на занятие</h2>
+      <p>Потенциальный клиент оставил заявку:</p>
+      <table style="border-collapse: collapse; width: 100%;">
+        <tr><td style="padding: 8px; border-bottom: 1px solid #eee;"><strong>Имя:</strong></td><td style="padding: 8px; border-bottom: 1px solid #eee;">${name}</td></tr>
+        <tr><td style="padding: 8px; border-bottom: 1px solid #eee;"><strong>Телефон:</strong></td><td style="padding: 8px; border-bottom: 1px solid #eee;">${phone}</td></tr>
+        <tr><td style="padding: 8px; border-bottom: 1px solid #eee;"><strong>Email:</strong></td><td style="padding: 8px; border-bottom: 1px solid #eee;">${email}</td></tr>
+      </table>
+    </div>
+  `;
+  return { subject, text, html };
+}
+
 module.exports = {
   getRegistrationContent,
   getPasswordResetContent,
+  getBookingNotificationContent,
 };

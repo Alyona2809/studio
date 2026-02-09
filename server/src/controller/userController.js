@@ -106,35 +106,6 @@ class UserController {
       );
     }
   }
-
-  static async create(req, res) {
-    try {
-      const { email, password, name, isAdmin } = req.body;
-      const newUser = await UserService.registerUser({
-        email,
-        password,
-        name,
-        isAdmin,
-      });
-
-      res.status(200).json(
-        formatResponse({
-          statusCode: 200,
-          message: "Пользователь успешно создан в БД",
-          data: newUser,
-        })
-      );
-    } catch (error) {
-      console.log(error);
-      res.status(500).json(
-        formatResponse({
-          statusCode: 500,
-          message: "Не удалось создать пользователя в БД",
-          error: "Не удалось создать пользователя в БД",
-        })
-      );
-    }
-  }
 }
 
 module.exports = UserController;

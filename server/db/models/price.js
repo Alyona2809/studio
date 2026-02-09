@@ -11,7 +11,6 @@ module.exports = (sequelize, DataTypes) => {
 
   Price.init(
     {
-      age: DataTypes.STRING,
       numberClasses: DataTypes.STRING,
       price: DataTypes.STRING,
       programId: DataTypes.INTEGER,
@@ -19,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "Price",
-    }
+    },
   );
 
   return Price;

@@ -25,3 +25,4 @@ REFRESH_TOKEN_SECRET=sfasfasf32r2qedasdt4326t23
  SMTP_USER=your-login@yandex.ru
  SMTP_PASS=your-app-password
  SMTP_FROM=your-login@yandex.ru
+ADMIN_EMAIL=topalalyona@yandex.ru
